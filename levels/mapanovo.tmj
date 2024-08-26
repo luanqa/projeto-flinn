@@ -1,0 +1,120 @@
+{ "compressionlevel":-1,
+ "height":15,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 106, 107, 108, 109, 30,
+            31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 110, 111, 112, 113, 45,
+            46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 114, 115, 116, 117, 60,
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 118, 119, 120, 121, 15,
+            16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+            31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+            46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 122, 123, 124, 125, 30,
+            31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 126, 127, 128, 129, 45,
+            46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+            61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75,
+            76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+            91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105],
+         "height":15,
+         "id":1,
+         "name":"tilemap",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":15,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":2,
+         "name":"waypoints",
+         "objects":[
+                {
+                 "height":0,
+                 "id":1,
+                 "name":"",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":-649.333333333333,
+                         "y":0
+                        }, 
+                        {
+                         "x":-641.333333333333,
+                         "y":-380
+                        }, 
+                        {
+                         "x":34.6666666666667,
+                         "y":-377.333333333333
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":741.333333333333,
+                 "y":510.666666666667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":3,
+ "nextobjectid":2,
+ "orientation":"orthogonal",
+ "renderorder":"right-up",
+ "tiledversion":"1.10.2",
+ "tileheight":48,
+ "tilesets":[
+        {
+         "columns":15,
+         "firstgid":1,
+         "image":"..\/..\/Downloads\/background.png",
+         "imageheight":360,
+         "imagewidth":720,
+         "margin":0,
+         "name":"background",
+         "spacing":0,
+         "tilecount":105,
+         "tileheight":48,
+         "tilewidth":48
+        }, 
+        {
+         "columns":4,
+         "firstgid":106,
+         "image":"..\/..\/Downloads\/cpu (2).png",
+         "imageheight":192,
+         "imagewidth":192,
+         "margin":0,
+         "name":"cpu (2)",
+         "spacing":0,
+         "tilecount":16,
+         "tileheight":48,
+         "tilewidth":48
+        }, 
+        {
+         "columns":4,
+         "firstgid":122,
+         "image":"..\/..\/Downloads\/memoria (2).png",
+         "imageheight":96,
+         "imagewidth":192,
+         "margin":0,
+         "name":"memoria (2)",
+         "spacing":0,
+         "tilecount":8,
+         "tileheight":48,
+         "tilewidth":48
+        }],
+ "tilewidth":48,
+ "type":"map",
+ "version":"1.10",
+ "width":15
+}
