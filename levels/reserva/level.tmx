@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="left-up" width="15" height="15" tilewidth="48" tileheight="48" infinite="0" nextlayerid="3" nextobjectid="2">
+ <tileset firstgid="1" name="background" tilewidth="48" tileheight="48" tilecount="105" columns="15">
+  <image source="../../Downloads/background.png" width="720" height="360"/>
+ </tileset>
+ <tileset firstgid="106" name="memoria (2)" tilewidth="48" tileheight="48" tilecount="8" columns="4">
+  <image source="../../Downloads/memoria (2).png" width="192" height="96"/>
+ </tileset>
+ <objectgroup id="2" name="waypoints">
+  <object id="1" x="697.263" y="41.2632">
+   <polyline points="0,0 608,5.05263 607.158,652.632"/>
+  </object>
+ </objectgroup>
+ <layer id="1" name="tilemap" width="15" height="15">
+  <data encoding="csv">
+62,63,64,65,66,67,68,69,70,71,72,106,107,108,109,
+62,61,62,63,64,65,66,67,68,69,70,110,111,112,113,
+61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,
+61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,
+61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,
+61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,
+61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,
+62,63,64,65,66,67,68,69,70,71,72,73,74,75,75,
+62,63,64,65,66,67,68,69,70,71,72,73,74,75,75,
+62,61,62,63,64,65,66,67,68,69,70,71,72,73,74,
+62,61,62,63,64,65,66,67,68,69,70,71,72,73,74,
+62,61,62,63,64,65,66,67,68,69,70,71,72,73,74,
+62,61,62,63,64,65,66,67,68,69,70,71,72,73,74,
+106,107,108,109,64,65,66,67,68,69,70,71,72,73,74,
+110,111,112,113,63,64,65,66,67,68,69,70,71,72,73
+</data>
+ </layer>
+</map>
