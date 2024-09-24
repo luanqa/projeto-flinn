@@ -19,7 +19,6 @@ class World():
     self.missed_enemies = 0
 
   def process_data(self):
-    #look through data to extract relevant info
     for layer in self.level_data["layers"]:
       if layer["name"] == "tilemap":
         self.tile_map = layer["data"]
@@ -27,6 +26,10 @@ class World():
         for obj in layer["objects"]:
           waypoint_data = obj["polyline"]
           self.process_waypoints(waypoint_data)
+      elif layer["name"] == "waypoints2":
+        for obj in layer["objects"]:
+          waypoint_data = obj["polyline"]
+          self.process_waypoints(waypoint_data)    
 
   def process_waypoints(self, data):
     #iterate through waypoints to extract individual sets of x and y coordinates

@@ -1,0 +1,136 @@
+{
+  "compressionlevel": -1,
+  "height": 15,
+  "infinite": false,
+  "layers": [
+    {
+      "draworder": "topdown",
+      "id": 2,
+      "name": "waypoints",
+      "objects": [
+        {
+          "height": 0,
+          "id": 1,
+          "name": "",
+          "polyline": [
+            {
+              "x": 321.29,
+              "y": -9.2354
+            },
+            {
+              "x": 317.966,
+              "y": 403.118
+            },
+            {
+              "x": 723.882,
+              "y": 405.006
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 5,
+      "name": "waypoints2",
+      "objects": [
+        {
+          "height": 0,
+          "id": 2,
+          "name": "",
+          "polyline": [
+            {
+              "x": 321.29,
+              "y": -9.2354
+            },
+            {
+              "x": 317.966,
+              "y": 403.118
+            },
+            {
+              "x": -26.118,
+              "y": 404.006
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "data": [
+        7, 7, 7, 7, 7, 7, 1, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 1, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 1, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 1, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 1, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 1, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 1, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 1, 7, 7, 7, 7, 7, 7, 7, 7,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+        7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7
+      ],
+      "height": 15,
+      "id": 1,
+      "name": "tilemap",
+      "opacity": 1,
+      "type": "tilelayer",
+      "visible": true,
+      "width": 15,
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "nextlayerid": 6,
+  "nextobjectid": 3,
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "tiledversion": "1.10.2",
+  "tileheight": 48,
+  "tilesets": [
+    {
+      "firstgid": 1,
+      "source": "TD tileset.tsx"
+    },
+    {
+      "firstgid": 1,
+      "source": "../../../../../segunda fase/caminho com preenchimento.tsx"
+    },
+    {
+      "firstgid": 226,
+      "source": "level2.tsx"
+    },
+    {
+      "firstgid": 451,
+      "source": "level3.tsx"
+    }
+  ],
+  "tilewidth": 48,
+  "type": "map",
+  "version": "1.10",
+  "width": 15
+}

@@ -23,14 +23,15 @@ level_started = False
 last_enemy_spawn = pg.time.get_ticks()
 placing_turrets = False
 selected_turret = None
-level_atual = 0
+
 
 #load images
 #map
 map_image = pg.image.load('levels/testeMapaTrasjetoria.png').convert_alpha()
-map_image2 = map_image
-#map_image = pg.image.load('levels/level.png').convert_alpha()
-#map_image2 = pg.image.load('levels/testeMapaTrasjetoria.png').convert_alpha()
+map_image2 = pg.image.load('levels/level2/level2.png').convert_alpha()
+map_image3 = pg.image.load('levels/level3/level3.png').convert_alpha()
+
+
 #turret spritesheets_
 turret_spritesheets = []
 for x in range(1, c.NIVEL_ARQUEIRO + 1):
@@ -40,10 +41,10 @@ for x in range(1, c.NIVEL_ARQUEIRO + 1):
 cursor_turret = pg.image.load('assets/images/turrets/Arqueiro_Menu.png').convert_alpha()
 #enemies
 enemy_images = {
-  "weak": pg.image.load('assets/images/enemies/balao_2.png').convert_alpha(),
-  "medium": pg.image.load('assets/images/enemies/balao_1.png').convert_alpha(),
-  "strong": pg.image.load('assets/images/enemies/balao_3.png').convert_alpha(),
-  "elite": pg.image.load('assets/images/enemies/balao_4.png').convert_alpha()
+  "weak": pg.image.load('assets/images/enemies/alien1.png').convert_alpha(),
+  "medium": pg.image.load('assets/images/enemies/alien2.png').convert_alpha(),
+  "strong": pg.image.load('assets/images/enemies/alien3.png').convert_alpha(),
+  "elite": pg.image.load('assets/images/enemies/alien4.png').convert_alpha()
 }
 #buttons
 buy_turret_image = pg.image.load('assets/images/buttons/Botao_de_Compra.png').convert_alpha()
@@ -65,6 +66,12 @@ shot_fx.set_volume(0.5)
 with open('levels/reserva/level.tmj') as file:
 #with open('levels/level.tmj') as file:
   world_data = json.load(file)
+
+with open('levels/level2/level2.tmj') as file:
+  world_data_2 = json.load(file)
+
+with open('levels/level3/level3.tmj') as file:
+  world_data_3 = json.load(file)  
 #load fonts for displaying text on the screen
 text_font = pg.font.SysFont("Consolas", 24, bold = True)
 large_font = pg.font.SysFont("Consolas", 36)
@@ -212,11 +219,18 @@ while run:
       level_started = False
       last_enemy_spawn = pg.time.get_ticks()
       world.reset_level()
+      if(world.level == 2):
+        turret_group.empty()
+        world = World(world_data_2, map_image2)
+        world.level = 2
+        world.process_data()
+      if(world.level == 3):
+        turret_group.empty()
+        world = World(world_data_3, map_image3)
+        world.level = 3
+        world.process_data()
       world.process_enemies()
-      if(world.level >1):
-        world.image = map_image2
       
-
     #draw buttons
     #button for placing turrets
     #for the "turret button" show cost of turret and draw the button
