@@ -129,10 +129,12 @@ def clear_selection():
 world = World(world_data, map_image)
 world.process_data()
 world.process_enemies()
-
+if world.waypoints_2:
+  world.process_enemies()
 
 #create groups
 enemy_group = pg.sprite.Group()
+enemy_group_2 = pg.sprite.Group()
 turret_group = pg.sprite.Group()
 
 #create buttons
@@ -171,7 +173,12 @@ while run:
 
     #update groups
     enemy_group.update(world)
-    turret_group.update(enemy_group, world)
+    enemy_group_2.update(world)
+    enemy_group_all = []
+    enemy_group_all.extend(enemy_group)
+    enemy_group_all.extend(enemy_group_2)
+    print("grupo de inimigos ", enemy_group_all )
+    turret_group.update(enemy_group_all, world)
 
     #highlight selected turret
     if selected_turret:
@@ -181,12 +188,12 @@ while run:
   # DRAWING SECTION
   #########################
 
-
   #draw level
   world.draw(screen)
 
   #draw groups
   enemy_group.draw(screen)
+  enemy_group_2.draw(screen)
   for turret in turret_group:
     turret.draw(screen)
 
@@ -204,13 +211,28 @@ while run:
         world.game_speed = 2
       #spawn enemies
       if pg.time.get_ticks() - last_enemy_spawn > c.ESPERA_SURGIMENTO:
-        if world.spawned_enemies < len(world.enemy_list):
-          enemy_type = world.enemy_list[world.spawned_enemies]
-          #print(world.waypoints)
-          enemy = Enemy(enemy_type, world.waypoints, enemy_images)
-          enemy_group.add(enemy)
-          world.spawned_enemies += 1
-          last_enemy_spawn = pg.time.get_ticks()
+        if world.waypoints_2:
+          if world.spawned_enemies < len(world.enemy_list):
+            enemy_type = world.enemy_list[world.spawned_enemies]
+            enemy = Enemy(enemy_type, world.waypoints, enemy_images)
+            enemy_group.add(enemy)
+            world.spawned_enemies += 1
+            last_enemy_spawn = pg.time.get_ticks()
+
+            
+            enemy_2 = Enemy(enemy_type, world.waypoints_2, enemy_images)
+            enemy_group_2.add(enemy_2)
+            world.spawned_enemies += 1
+            last_enemy_spawn = pg.time.get_ticks()
+
+        elif  (not world.waypoints_2):
+          if world.spawned_enemies < len(world.enemy_list):
+            enemy_type = world.enemy_list[world.spawned_enemies]
+            enemy = Enemy(enemy_type, world.waypoints, enemy_images)
+            enemy_group.add(enemy)
+            enemy_group_2.add(enemy)
+            world.spawned_enemies += 1
+            last_enemy_spawn = pg.time.get_ticks()
 
     #check if the wave is finished
     if world.check_level_complete() == True:
@@ -229,6 +251,7 @@ while run:
         world = World(world_data_3, map_image3)
         world.level = 3
         world.process_data()
+        world.process_enemies()
       world.process_enemies()
       
     #draw buttons
@@ -277,6 +300,7 @@ while run:
       world.process_enemies()
       #empty groups
       enemy_group.empty()
+      enemy_group_2.empty()
       turret_group.empty()
 
   #event handler

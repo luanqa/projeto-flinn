@@ -11,6 +11,7 @@ class World():
     self.money = c.DINHEIRO
     self.tile_map = []
     self.waypoints = []
+    self.waypoints_2 = []
     self.level_data = data
     self.image = map_image
     self.enemy_list = []
@@ -29,7 +30,7 @@ class World():
       elif layer["name"] == "waypoints2":
         for obj in layer["objects"]:
           waypoint_data = obj["polyline"]
-          self.process_waypoints(waypoint_data)    
+          self.process_waypoints_2(waypoint_data)    
 
   def process_waypoints(self, data):
     #iterate through waypoints to extract individual sets of x and y coordinates
@@ -37,8 +38,24 @@ class World():
       temp_x = point.get("x")
       temp_y = point.get("y")
       self.waypoints.append((temp_x, temp_y))
+  
+  def process_waypoints_2(self, data):
+    #iterate through waypoints to extract individual sets of x and y coordinates
+    for point in data:
+      temp_x = point.get("x")
+      temp_y = point.get("y")
+      self.waypoints_2.append((temp_x, temp_y))
 
   def process_enemies(self):
+    enemies = ENEMY_SPAWN_DATA[self.level - 1]
+    for enemy_type in enemies:
+      enemies_to_spawn = enemies[enemy_type]
+      for enemy in range(enemies_to_spawn):
+        self.enemy_list.append(enemy_type)
+    #now randomize the list to shuffle the enemies
+    random.shuffle(self.enemy_list)
+  
+  def process_enemies_2(self):
     enemies = ENEMY_SPAWN_DATA[self.level - 1]
     for enemy_type in enemies:
       enemies_to_spawn = enemies[enemy_type]
