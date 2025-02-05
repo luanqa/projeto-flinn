@@ -160,13 +160,13 @@ while run:
   # UPDATING SECTION
   #########################  
   
-  
   if game_over == False:
     #check if player has lost
     if world.health <= 0:
       game_over = True
       game_outcome = -1 #loss
     #check if player has won
+    
     if world.level > c.TOTAL_NIVEIS:
       game_over = True
       game_outcome = 1 #win
@@ -177,7 +177,6 @@ while run:
     enemy_group_all = []
     enemy_group_all.extend(enemy_group)
     enemy_group_all.extend(enemy_group_2)
-    print("grupo de inimigos ", enemy_group_all )
     turret_group.update(enemy_group_all, world)
 
     #highlight selected turret
@@ -238,9 +237,11 @@ while run:
     if world.check_level_complete() == True:
       world.money += c.RECOMPENSA_NIVEL
       world.level += 1
+      print("fase atual =", world.level)
+
       level_started = False
       last_enemy_spawn = pg.time.get_ticks()
-      world.reset_level()
+      #world.reset_level()
       if(world.level == 2):
         turret_group.empty()
         world = World(world_data_2, map_image2)
@@ -251,8 +252,15 @@ while run:
         world = World(world_data_3, map_image3)
         world.level = 3
         world.process_data()
+      if(world.level == 4):
+        turret_group.empty()
+        world = World(world_data_3, map_image3)
+        world.level = 4
+        world.process_data()
+      if(world.level<5):
         world.process_enemies()
-      world.process_enemies()
+      
+      
       
     #draw buttons
     #button for placing turrets
