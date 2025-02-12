@@ -23,7 +23,8 @@ level_started = False
 last_enemy_spawn = pg.time.get_ticks()
 placing_turrets = False
 selected_turret = None
-
+game_paused = False  
+pause_button_clicked = False
 
 #load images
 #map
@@ -53,6 +54,7 @@ upgrade_turret_image = pg.image.load('assets/images/buttons/Botao_Upgrade.png').
 begin_image = pg.image.load('assets/images/buttons/Botao_fase.png').convert_alpha()
 restart_image = pg.image.load('assets/images/buttons/restart.png').convert_alpha()
 fast_forward_image = pg.image.load('assets/images/buttons/fast_forward.png').convert_alpha()
+pause_image = pg.image.load('assets/images/buttons/pause_button.png').convert_alpha()  # Botão de pausar
 #gui
 heart_image = pg.image.load("assets/images/gui/heart.png").convert_alpha()
 coin_image = pg.image.load("assets/images/gui/coin.png").convert_alpha()
@@ -144,6 +146,7 @@ upgrade_button = Button(c.LARGURA_TELA + 30, 230, upgrade_turret_image, True)
 begin_button = Button(c.LARGURA_TELA + 90, 260, begin_image, True)
 restart_button = Button(310, 300, restart_image, True)
 fast_forward_button = Button(c.LARGURA_TELA + 50, 300, fast_forward_image, False)
+pause_button = Button(c.LARGURA_TELA + 50, 350, pause_image, False)  # Botão de Pausar
 
 
 
@@ -159,19 +162,19 @@ while run:
   #########################
   # UPDATING SECTION
   #########################  
-  
-  if game_over == False:
-    #check if player has lost
-    if world.health <= 0:
-      game_over = True
-      game_outcome = -1 #loss
-    #check if player has won
+  if not game_paused:
+    if game_over == False:
+        #check if player has lost
+        if world.health <= 0:
+            game_over = True
+            game_outcome = -1 #loss
+            #check if player has won
     
     if world.level > c.TOTAL_NIVEIS:
-      game_over = True
-      game_outcome = 1 #win
+        game_over = True
+        game_outcome = 1 #win
 
-    #update groups
+        #update groups
     enemy_group.update(world)
     enemy_group_2.update(world)
     enemy_group_all = []
@@ -179,9 +182,9 @@ while run:
     enemy_group_all.extend(enemy_group_2)
     turret_group.update(enemy_group_all, world)
 
-    #highlight selected turret
+     #highlight selected turret
     if selected_turret:
-      selected_turret.selected = True
+        selected_turret.selected = True
 
   #########################
   # DRAWING SECTION
@@ -237,7 +240,6 @@ while run:
     if world.check_level_complete() == True:
       world.money += c.RECOMPENSA_NIVEL
       world.level += 1
-      print("fase atual =", world.level)
 
       level_started = False
       last_enemy_spawn = pg.time.get_ticks()
@@ -310,8 +312,19 @@ while run:
       enemy_group.empty()
       enemy_group_2.empty()
       turret_group.empty()
+  
+    
+# Check if the pause button was clicked
+  if pause_button.draw(screen):
+        if not pause_button_clicked:  # Only toggle once per click
+            game_paused = not game_paused  # Toggle pause state
+            pause_button_clicked = True  # Mark button as clicked
 
-  #event handler
+  if not pause_button.draw(screen):  # Reset button state when it's not clicked
+        pause_button_clicked = False
+
+  if game_paused:  # Display "PAUSADO" when the game is paused
+        draw_text("PAUSADO", large_font, "red", c.LARGURA_TELA // 2 - 100, c.ALTURA_TELA // 2)
   for event in pg.event.get():
     #quit program
     if event.type == pg.QUIT:
