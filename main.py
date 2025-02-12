@@ -59,6 +59,9 @@ pause_image = pg.image.load('assets/images/buttons/pause_button.png').convert_al
 heart_image = pg.image.load("assets/images/gui/heart.png").convert_alpha()
 coin_image = pg.image.load("assets/images/gui/coin.png").convert_alpha()
 logo_image = pg.image.load("assets/images/gui/logo.png").convert_alpha()
+ajuda_image = pg.image.load('assets/images/buttons/ajuda.png').convert_alpha()
+back_image = pg.image.load('assets/images/buttons/back.png').convert_alpha()
+
 
 #load sounds
 shot_fx = pg.mixer.Sound('assets/audio/shot.wav')
@@ -144,9 +147,98 @@ turret_button = Button(c.LARGURA_TELA + 30, 120, buy_turret_image, True)
 cancel_button = Button(c.LARGURA_TELA + 30, 180, cancel_image, True)
 upgrade_button = Button(c.LARGURA_TELA + 30, 230, upgrade_turret_image, True)
 begin_button = Button(c.LARGURA_TELA + 90, 260, begin_image, True)
-restart_button = Button(310, 300, restart_image, True)
+restart_button = Button(c.LARGURA_TELA + 50, 450, restart_image, True)
 fast_forward_button = Button(c.LARGURA_TELA + 50, 300, fast_forward_image, False)
 pause_button = Button(c.LARGURA_TELA + 50, 350, pause_image, False)  # Botão de Pausar
+ajuda_button = Button(c.LARGURA_TELA + 50, 400, ajuda_image, False)  # Botão de Ajuda
+back_button = Button(c.LARGURA_TELA + 50, 450, back_image, False)
+
+
+
+def show_help_screen():
+    # Tela de ajuda (fundo)
+    glass_surface = pg.Surface((c.LARGURA_TELA, c.ALTURA_TELA))  # Superfície para o efeito
+    glass_surface.set_alpha(150)  # Definindo a opacidade (0 a 255, onde 255 é totalmente opaco)
+    glass_surface.fill((169, 169, 169))  # Cor cinza (RGB: 169, 169, 169)
+
+    screen.blit(glass_surface, (0, 0))  # Colocando a superfície na tela
+    
+    # Texto explicativo sobre os botões
+    draw_text("AJUDA", large_font, "white", c.LARGURA_TELA // 2 - 50, 50)  # Título da tela
+    
+    # Limite para o texto (sem ultrapassar a largura da tela considerando o painel lateral)
+    texto_largura_maxima = c.LARGURA_TELA - 180  # Ajustando para 180px de margem à esquerda para o texto
+
+    # Carregar as imagens dos botões
+    buy_turret_image = pg.image.load('assets/images/buttons/Botao_de_Compra.png').convert_alpha()
+    cancel_image = pg.image.load('assets/images/buttons/cancel.png').convert_alpha()
+    upgrade_turret_image = pg.image.load('assets/images/buttons/Botao_Upgrade.png').convert_alpha()
+    begin_image = pg.image.load('assets/images/buttons/Botao_fase.png').convert_alpha()
+    restart_image = pg.image.load('assets/images/buttons/restart.png').convert_alpha()
+    fast_forward_image = pg.image.load('assets/images/buttons/fast_forward.png').convert_alpha()
+    pause_image = pg.image.load('assets/images/buttons/pause_button.png').convert_alpha()
+
+    # Exibir as imagens dos botões e seus textos explicativos
+    y_offset = 150  # Posição inicial do eixo Y para os botões e textos
+    button_spacing = 100  # Espaçamento vertical entre os botões e textos
+
+    screen.blit(begin_image, (50, y_offset))
+    draw_text_limited("Clique no botão 'Começar' para iniciar o jogo.", text_font, "white", 150, y_offset, texto_largura_maxima)
+
+    y_offset += button_spacing  # Ajusta o próximo Y para a linha seguinte
+
+    screen.blit(fast_forward_image, (50, y_offset))
+    draw_text_limited("Clique no botão 'Acelerar' para aumentar a velocidade.", text_font, "white", 150, y_offset, texto_largura_maxima)
+
+    y_offset += button_spacing
+
+    screen.blit(buy_turret_image, (50, y_offset))
+    draw_text_limited("Clique no botão 'Turret' para colocar torres.", text_font, "white", 150, y_offset, texto_largura_maxima)
+
+    y_offset += button_spacing
+
+    screen.blit(upgrade_turret_image, (50, y_offset))
+    draw_text_limited("Clique no botão 'Upgrade' para melhorar torres.", text_font, "white", 150, y_offset, texto_largura_maxima)
+
+    y_offset += button_spacing
+
+    screen.blit(pause_image, (50, y_offset))
+    draw_text_limited("Clique no botão 'Pausa' para pausar o jogo.", text_font, "white", 150, y_offset, texto_largura_maxima)
+
+    y_offset += button_spacing
+
+    screen.blit(restart_image, (50, y_offset))
+    draw_text_limited("Clique no botão 'Restart' para reiniciar o nível.", text_font, "white", 150, y_offset, texto_largura_maxima)
+
+    # Adicionar o botão de voltar
+    if back_button.draw(screen):  # Esse botão retorna ao jogo
+        return True  # Indica que deve voltar ao jogo
+    return False  # Permanece na tela de ajuda
+
+
+def draw_text_limited(text, font, color, x, y, max_width):
+    """
+    Função para desenhar texto com limite de largura e quebra de linha automática.
+    """
+    words = text.split(' ')  # Separa as palavras para criar as quebras de linha
+    lines = []
+    current_line = ""
+    
+    for word in words:
+        # Adiciona a palavra à linha atual e verifica se ultrapassa a largura máxima
+        if font.size(current_line + word)[0] <= max_width:
+            current_line += word + " "
+        else:
+            lines.append(current_line)
+            current_line = word + " "
+    
+    # Adiciona a última linha
+    if current_line:
+        lines.append(current_line)
+    
+    # Desenha as linhas no texto na tela
+    for i, line in enumerate(lines):
+        draw_text(line, font, color, x, y + i * (font.get_height() + 5))  # Adiciona espaçamento entre linhas
 
 
 
@@ -155,6 +247,8 @@ sidebar_background = pg.image.load('assets/images/gui/Moldura_Menu.png').convert
 
 #game loop
 run = True
+in_help_screen = False  # Variável para controlar se estamos na tela de ajuda
+
 while run:
 
   clock.tick(c.FPS)
@@ -162,17 +256,16 @@ while run:
   #########################
   # UPDATING SECTION
   #########################  
-  if not game_paused:
+  if not game_paused and not in_help_screen:  # A tela de ajuda não pode ser atualizada enquanto o jogo está pausado
     if game_over == False:
         #check if player has lost
         if world.health <= 0:
             game_over = True
             game_outcome = -1 #loss
-            #check if player has won
-    
-    if world.level > c.TOTAL_NIVEIS:
-        game_over = True
-        game_outcome = 1 #win
+        #check if player has won
+        if world.level > c.TOTAL_NIVEIS:
+            game_over = True
+            game_outcome = 1 #win
 
         #update groups
     enemy_group.update(world)
@@ -262,36 +355,6 @@ while run:
       if(world.level<5):
         world.process_enemies()
       
-      
-      
-    #draw buttons
-    #button for placing turrets
-    #for the "turret button" show cost of turret and draw the button
-    draw_text(str(c.CUSTO), text_font, "grey100", c.LARGURA_TELA + 200, 135)
-    screen.blit(coin_image, (c.LARGURA_TELA + 240, 130))
-    if turret_button.draw(screen):
-      placing_turrets = True
-    #if placing turrets then show the cancel button as well
-    if placing_turrets == True:
-      #show cursor turret
-      cursor_rect = cursor_turret.get_rect()
-      cursor_pos = pg.mouse.get_pos()
-      cursor_rect.center = cursor_pos
-      if cursor_pos[0] <= c.LARGURA_TELA:
-        screen.blit(cursor_turret, cursor_rect)
-      if cancel_button.draw(screen):
-        placing_turrets = False
-    #if a turret is selected then show the upgrade button
-    if selected_turret:
-      #if a turret can be upgraded then show the upgrade button
-      if selected_turret.upgrade_level < c.NIVEL_ARQUEIRO:
-        #show cost of upgrade and draw the button
-        draw_text(str(c.CUSTO_UPGRADE), text_font, "grey100", c.LARGURA_TELA + 200, 250)
-        screen.blit(coin_image, (c.LARGURA_TELA + 240, 245))
-        if upgrade_button.draw(screen):
-          if world.money >= c.CUSTO_UPGRADE:
-            selected_turret.upgrade()
-            world.money -= c.CUSTO_UPGRADE
   else:
     pg.draw.rect(screen, "dodgerblue", (200, 200, 400, 200), border_radius = 30)
     if game_outcome == -1:
@@ -313,32 +376,37 @@ while run:
       enemy_group_2.empty()
       turret_group.empty()
   
-    
-# Check if the pause button was clicked
+  # Check if the pause button was clicked
   if pause_button.draw(screen):
-        if not pause_button_clicked:  # Only toggle once per click
-            game_paused = not game_paused  # Toggle pause state
-            pause_button_clicked = True  # Mark button as clicked
+    if not pause_button_clicked:  # Only toggle once per click
+        game_paused = not game_paused  # Toggle pause state
+        pause_button_clicked = True  # Mark button as clicked
 
   if not pause_button.draw(screen):  # Reset button state when it's not clicked
-        pause_button_clicked = False
+    pause_button_clicked = False
 
   if game_paused:  # Display "PAUSADO" when the game is paused
-        draw_text("PAUSADO", large_font, "red", c.LARGURA_TELA // 2 - 100, c.ALTURA_TELA // 2)
+    draw_text("PAUSADO", large_font, "red", c.LARGURA_TELA // 2 - 100, c.ALTURA_TELA // 2)
+  
+  # Adicionar lógica do botão "Ajuda"
+  if ajuda_button.draw(screen):
+    in_help_screen = True  # Quando o botão "Ajuda" for clicado, entra na tela de ajuda
+
+  if in_help_screen:  # Quando na tela de ajuda
+    if show_help_screen():  # Se o jogador clicar no botão de voltar
+      in_help_screen = False  # Voltar para o jogo
+
+  # Lógica de mouse e eventos
   for event in pg.event.get():
-    #quit program
     if event.type == pg.QUIT:
       run = False
-    #mouse click
     if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
       mouse_pos = pg.mouse.get_pos()
-      #check if mouse is on the game area
       if mouse_pos[0] < c.LARGURA_TELA and mouse_pos[1] < c.ALTURA_TELA:
         #clear selected turrets
         selected_turret = None
         clear_selection()
         if placing_turrets == True:
-          #check if there is enough money for a turret
           if world.money >= c.CUSTO:
             create_turret(mouse_pos)
         else:
