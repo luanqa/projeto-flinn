@@ -182,32 +182,32 @@ def show_help_screen():
     y_offset = 150  # Posição inicial do eixo Y para os botões e textos
     button_spacing = 100  # Espaçamento vertical entre os botões e textos
 
-    screen.blit(begin_image, (50, y_offset))
+    screen.blit(begin_image, (20, y_offset))
     draw_text_limited("Clique no botão 'Começar' para iniciar o jogo.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
     y_offset += button_spacing  # Ajusta o próximo Y para a linha seguinte
 
-    screen.blit(fast_forward_image, (50, y_offset))
+    screen.blit(fast_forward_image, (20, y_offset))
     draw_text_limited("Clique no botão 'Acelerar' para aumentar a velocidade.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
     y_offset += button_spacing
 
-    screen.blit(buy_turret_image, (50, y_offset))
+    screen.blit(buy_turret_image, (20, y_offset))
     draw_text_limited("Clique no botão 'Turret' para colocar torres.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
     y_offset += button_spacing
 
-    screen.blit(upgrade_turret_image, (50, y_offset))
+    screen.blit(upgrade_turret_image, (20, y_offset))
     draw_text_limited("Clique no botão 'Upgrade' para melhorar torres.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
     y_offset += button_spacing
 
-    screen.blit(pause_image, (50, y_offset))
+    screen.blit(pause_image, (20, y_offset))
     draw_text_limited("Clique no botão 'Pausa' para pausar o jogo.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
     y_offset += button_spacing
 
-    screen.blit(restart_image, (50, y_offset))
+    screen.blit(restart_image, (20, y_offset))
     draw_text_limited("Clique no botão 'Restart' para reiniciar o nível.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
     # Adicionar o botão de voltar
@@ -354,7 +354,34 @@ while run:
         world.process_data()
       if(world.level<5):
         world.process_enemies()
-      
+          #draw buttons
+    #button for placing turrets
+    #for the "turret button" show cost of turret and draw the button
+    draw_text(str(c.CUSTO), text_font, "grey100", c.LARGURA_TELA + 200, 135)
+    screen.blit(coin_image, (c.LARGURA_TELA + 240, 130))
+    if turret_button.draw(screen):
+      placing_turrets = True
+    #if placing turrets then show the cancel button as well
+    if placing_turrets == True:
+      #show cursor turret
+      cursor_rect = cursor_turret.get_rect()
+      cursor_pos = pg.mouse.get_pos()
+      cursor_rect.center = cursor_pos
+      if cursor_pos[0] <= c.LARGURA_TELA:
+        screen.blit(cursor_turret, cursor_rect)
+      if cancel_button.draw(screen):
+        placing_turrets = False
+    #if a turret is selected then show the upgrade button
+    if selected_turret:
+      #if a turret can be upgraded then show the upgrade button
+      if selected_turret.upgrade_level < c.NIVEL_ARQUEIRO:
+        #show cost of upgrade and draw the button
+        draw_text(str(c.CUSTO_UPGRADE), text_font, "grey100", c.LARGURA_TELA + 200, 250)
+        screen.blit(coin_image, (c.LARGURA_TELA + 240, 245))
+        if upgrade_button.draw(screen):
+          if world.money >= c.CUSTO_UPGRADE:
+            selected_turret.upgrade()
+            world.money -= c.CUSTO_UPGRADE
   else:
     pg.draw.rect(screen, "dodgerblue", (200, 200, 400, 200), border_radius = 30)
     if game_outcome == -1:
