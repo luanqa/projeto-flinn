@@ -146,12 +146,12 @@ turret_group = pg.sprite.Group()
 turret_button = Button(c.LARGURA_TELA + 30, 120, buy_turret_image, True)
 cancel_button = Button(c.LARGURA_TELA + 30, 180, cancel_image, True)
 upgrade_button = Button(c.LARGURA_TELA + 30, 230, upgrade_turret_image, True)
-begin_button = Button(c.LARGURA_TELA + 90, 260, begin_image, True)
-restart_button = Button(c.LARGURA_TELA + 50, 450, restart_image, True)
-fast_forward_button = Button(c.LARGURA_TELA + 50, 300, fast_forward_image, False)
-pause_button = Button(c.LARGURA_TELA + 50, 350, pause_image, False)  # Botão de Pausar
-ajuda_button = Button(c.LARGURA_TELA + 50, 400, ajuda_image, False)  # Botão de Ajuda
-back_button = Button(c.LARGURA_TELA + 50, 450, back_image, False)
+begin_button = Button(c.LARGURA_TELA + 30, 280, begin_image, True) 
+restart_button = Button(c.LARGURA_TELA + 30, 450, restart_image, True)
+fast_forward_button = Button(c.LARGURA_TELA + 30, 300, fast_forward_image, False)
+pause_button = Button(c.LARGURA_TELA + 30, 350, pause_image, False)  # Botão de Pausar
+ajuda_button = Button(c.LARGURA_TELA + 30, 400, ajuda_image, False)  # Botão de Ajuda
+back_button = Button(c.LARGURA_TELA + 30, 450, back_image, False)
 
 
 
@@ -207,8 +207,8 @@ def show_help_screen():
 
     y_offset += button_spacing
 
-    screen.blit(restart_image, (20, y_offset))
-    draw_text_limited("Clique no botão 'Restart' para reiniciar o nível.", text_font, "white", 150, y_offset, texto_largura_maxima)
+    #screen.blit(restart_image, (20, y_offset))
+    #draw_text_limited("Clique no botão 'Restart' para reiniciar o nível.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
     # Adicionar o botão de voltar
     if back_button.draw(screen):  # Esse botão retorna ao jogo
