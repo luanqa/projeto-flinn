@@ -60,9 +60,60 @@ class Turret(pg.sprite.Sprite):
     else:
       #search for new target once turret has cooled down
       if pg.time.get_ticks() - self.last_shot > (self.cooldown / world.game_speed):
-        self.pick_target(enemy_group)
-
+        if(world.level == 4):
+          self.pick_target_level4(enemy_group)
+        else:
+          self.pick_target(enemy_group)
+ 
   def pick_target(self, enemy_group):
+      # Mapear tipos de inimigos para cada nível de torre
+      type = {
+          1: "weak",    # Nível 1 só ataca inimigos "weak"
+          2: "medium",  # Nível 2 só ataca inimigos "medium"
+          3: "strong",  # Nível 3 só ataca inimigos "strong"
+          4: "elite"    # Nível 4 também ataca apenas inimigos "elite"
+      }
+
+      # Verifica o tipo de inimigo que pode ser atacado pelo nível atual
+      valid_enemy_type = type.get(self.upgrade_level, "strong")  # Padrão é "strong" para nível 4
+
+      x_dist = 0
+      y_dist = 0
+
+      # Iterar sobre os inimigos para achar um alvo válido
+      for enemy in enemy_group:
+          # Verifica se o inimigo é do tipo "god", qualquer torre pode atacar ele
+          if enemy.type == "god":
+              x_dist = enemy.pos[0] - self.x
+              y_dist = enemy.pos[1] - self.y
+              dist = math.sqrt(x_dist ** 2 + y_dist ** 2)
+
+              # Se o inimigo estiver dentro do alcance, é escolhido como alvo
+              if dist < self.range:
+                  self.target = enemy
+                  self.angle = math.degrees(math.atan2(-y_dist, x_dist))
+                  # Dano ao inimigo
+                  self.target.health -= c.DANO
+                  # Reproduzir o efeito sonoro
+                  self.shot_fx.play()
+                  break
+
+          # Se o inimigo não for "god", verifica se a torre pode atacar o inimigo de acordo com seu tipo
+          elif enemy.health > 0 and enemy.type == valid_enemy_type:
+              x_dist = enemy.pos[0] - self.x
+              y_dist = enemy.pos[1] - self.y
+              dist = math.sqrt(x_dist ** 2 + y_dist ** 2)
+
+              # Se o inimigo estiver dentro do alcance, é escolhido como alvo
+              if dist < self.range:
+                  self.target = enemy
+                  self.angle = math.degrees(math.atan2(-y_dist, x_dist))
+                  # Dano ao inimigo
+                  self.target.health -= c.DANO
+                  # Reproduzir o efeito sonoro
+                  self.shot_fx.play()
+                  break
+  def pick_target_level4(self, enemy_group):
     #find an enemy to target
     x_dist = 0
     y_dist = 0
@@ -80,7 +131,7 @@ class Turret(pg.sprite.Sprite):
           #play sound effect
           self.shot_fx.play()
           break
-
+  
   def play_animation(self):
     #update image
     self.original_image = self.animation_list[self.frame_index]

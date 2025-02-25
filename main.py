@@ -52,7 +52,8 @@ enemy_images = {
   "weak": pg.image.load('assets/images/enemies/alien1.png').convert_alpha(),
   "medium": pg.image.load('assets/images/enemies/alien2.png').convert_alpha(),
   "strong": pg.image.load('assets/images/enemies/alien3.png').convert_alpha(),
-  "elite": pg.image.load('assets/images/enemies/alien4.png').convert_alpha()
+  "elite": pg.image.load('assets/images/enemies/alien4.png').convert_alpha(),
+  "god": pg.image.load('assets/images/enemies/alien5.png').convert_alpha()
 }
 #buttons
 buy_turret_image = pg.image.load('assets/images/buttons/Botao_de_Compra.png').convert_alpha()
@@ -129,11 +130,6 @@ def create_turret(mouse_pos):
   #calculate the sequential number of the tile
   mouse_tile_num = (mouse_tile_y * c.COLUNAS) + mouse_tile_x
   #check if that tile is grass
-  print("x =>> ",mouse_tile_x)
-  print("y =>> ",mouse_tile_y)
-  print("op=>> ",mouse_tile_num)
-
-  print("O dado cru é: ", len(world.tile_map))
   if world.tile_map[mouse_tile_num] == 7:
     #check that there isn't already a turret there
     space_is_free = True
@@ -358,11 +354,9 @@ while run:
             last_enemy_spawn = pg.time.get_ticks()
 
     #check if the wave is finished
-    print(world.check_level_complete() )
     if world.check_level_complete() == True:
       world.money += c.RECOMPENSA_NIVEL
       world.level += 1
-
       level_started = False
       last_enemy_spawn = pg.time.get_ticks()
       #world.reset_level()
@@ -371,16 +365,21 @@ while run:
         world = World(world_data_2, map_image2)
         world.level = 2
         world.process_data()
+        world.money = 46
       if(world.level == 3):
         turret_group.empty()
         world = World(world_data_3, map_image3)
         world.level = 3
         world.process_data()
+        world.process_enemies()
+        world.money = 46
       if(world.level == 4):
         turret_group.empty()
         world = World(world_data_3, map_image3)
         world.level = 4
         world.process_data()
+        world.process_enemies()
+        world.money = 46
       if(world.level<5):
         world.process_enemies()
           #draw buttons

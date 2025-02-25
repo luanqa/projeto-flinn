@@ -52,6 +52,7 @@ class World():
       enemies_to_spawn = enemies[enemy_type]
       for enemy in range(enemies_to_spawn):
         self.enemy_list.append(enemy_type)
+        print(enemy_type)
     #now randomize the list to shuffle the enemies
     random.shuffle(self.enemy_list)
   

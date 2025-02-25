@@ -12,6 +12,7 @@ class Enemy(pg.sprite.Sprite):
     self.target_waypoint = 1
     self.health = ENEMY_DATA.get(enemy_type)["health"]
     self.speed = ENEMY_DATA.get(enemy_type)["speed"]
+    self.type = enemy_type
     self.angle = 0
     self.original_image = images.get(enemy_type)
     self.image = pg.transform.rotate(self.original_image, self.angle)
