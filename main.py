@@ -28,9 +28,16 @@ pause_button_clicked = False
 
 #load images
 #map
+'''
 map_image = pg.image.load('levels/testeMapaTrasjetoria.png').convert_alpha()
 map_image2 = pg.image.load('levels/level2/level2.png').convert_alpha()
 map_image3 = pg.image.load('levels/level3/level3.png').convert_alpha()
+'''
+
+map_image = pg.image.load('levels/novosNiveis/level.png').convert_alpha()
+map_image2 = pg.image.load('levels/novosNiveis/level2.png').convert_alpha()
+map_image3 = pg.image.load('levels/novosNiveis/level3.png').convert_alpha()
+
 
 
 #turret spritesheets_
@@ -67,6 +74,7 @@ back_image = pg.image.load('assets/images/buttons/back.png').convert_alpha()
 shot_fx = pg.mixer.Sound('assets/audio/shot.wav')
 shot_fx.set_volume(0.5)
 
+'''
 #load json data for level
 with open('levels/reserva/level.tmj') as file:
 #with open('levels/level.tmj') as file:
@@ -80,6 +88,21 @@ with open('levels/level3/level3.tmj') as file:
 #load fonts for displaying text on the screen
 text_font = pg.font.SysFont("Consolas", 24, bold = True)
 large_font = pg.font.SysFont("Consolas", 36)
+'''
+#load json data for level
+with open('levels/novosNiveis/level.tmj') as file:
+#with open('levels/level.tmj') as file:
+  world_data = json.load(file)
+
+with open('levels/novosNiveis/level2.tmj') as file:
+  world_data_2 = json.load(file)
+
+with open('levels/novosNiveis/level3.tmj') as file:
+  world_data_3 = json.load(file)  
+#load fonts for displaying text on the screen
+text_font = pg.font.SysFont("Consolas", 24, bold = True)
+large_font = pg.font.SysFont("Consolas", 36)
+
 
 #function for outputting text onto the screen
 def draw_text(text, font, text_col, x, y):
@@ -106,6 +129,11 @@ def create_turret(mouse_pos):
   #calculate the sequential number of the tile
   mouse_tile_num = (mouse_tile_y * c.COLUNAS) + mouse_tile_x
   #check if that tile is grass
+  print("x =>> ",mouse_tile_x)
+  print("y =>> ",mouse_tile_y)
+  print("op=>> ",mouse_tile_num)
+
+  print("O dado cru é: ", len(world.tile_map))
   if world.tile_map[mouse_tile_num] == 7:
     #check that there isn't already a turret there
     space_is_free = True
@@ -330,6 +358,7 @@ while run:
             last_enemy_spawn = pg.time.get_ticks()
 
     #check if the wave is finished
+    print(world.check_level_complete() )
     if world.check_level_complete() == True:
       world.money += c.RECOMPENSA_NIVEL
       world.level += 1
