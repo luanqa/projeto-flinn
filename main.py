@@ -78,6 +78,10 @@ logo_image = pg.image.load("assets/images/gui/logo.png").convert_alpha()
 ajuda_image = pg.image.load('assets/images/buttons/ajuda.png').convert_alpha()
 back_image = pg.image.load('assets/images/buttons/back.png').convert_alpha()
 intro_image = pg.image.load('assets/images/intro.jpeg').convert_alpha()
+informacao_tela1 = pg.image.load('assets/images/informacao1.png').convert_alpha()
+informacao_tela2 = pg.image.load('assets/images/informacao2.png').convert_alpha()
+informacao_tela3 = pg.image.load('assets/images/informacao3.png').convert_alpha()
+informacao_tela4 = pg.image.load('assets/images/informacao4.png').convert_alpha()
 
 
 #load sounds
@@ -195,7 +199,7 @@ def informar(titulo, conteudo):
     screen.blit(glass_surface, (0, 0))  # Colocando a superfície na tela
     
     # Texto explicativo sobre os botões
-    draw_text(titulo, large_font, "white", c.LARGURA_TELA // 2 - 50, 50)  # Título da tela
+    draw_text(titulo, large_font, "black", c.LARGURA_TELA // 2 - 50, 50)  # Título da tela
     
     # Limite para o texto (sem ultrapassar a largura da tela considerando o painel lateral)
     texto_largura_maxima = c.LARGURA_TELA - 180  # Ajustando para 180px de margem à esquerda para o texto
@@ -203,13 +207,39 @@ def informar(titulo, conteudo):
     y_offset = 150
     draw_text_limited(conteudo, text_font, "black", 150, y_offset, texto_largura_maxima)
 
-    #screen.blit(restart_image, (20, y_offset))
-    #draw_text_limited("Clique no botão 'Restart' para reiniciar o nível.", text_font, "white", 150, y_offset, texto_largura_maxima)
+    # Carregar a imagem do botão "iniciar"
+    iniciar_image = pg.image.load('assets/images/buttons/begin.png').convert_alpha()  # Botão de pausar
 
-    # Adicionar o botão de voltar
-    if back_button.draw(screen):  # Esse botão retorna ao jogo
-        return True  # Indica que deve voltar ao jogo
-    return False  # Permanece na tela de ajuda
+    iniciar_rect = iniciar_image.get_rect(center=(c.LARGURA_TELA // 2, c.ALTURA_TELA - 100))  # Ajustar a posição do botão
+
+    # Desenha o botão de iniciar
+    screen.blit(iniciar_image, iniciar_rect)
+
+    # Checando se o botão de iniciar foi clicado
+    if iniciar_rect.collidepoint(pg.mouse.get_pos()) and pg.mouse.get_pressed()[0]:
+        return True  # Fechar a tela de informações e voltar para o jogo
+
+    return False  # Caso contrário, continua mostrando a tela de informações
+
+
+def informar2(lv):
+    if lv == 1:
+      screen.blit(informacao_tela1, (0, 0))
+    if lv == 2:
+      screen.blit(informacao_tela2, (0, 0))
+    if lv == 3:
+      screen.blit(informacao_tela3, (0, 0))
+    if lv == 4:
+      screen.blit(informacao_tela4, (0, 0))    
+    iniciar_image = pg.image.load('assets/images/buttons/begin.png').convert_alpha()  # Botão de pausar
+    iniciar_rect = iniciar_image.get_rect(center=(c.LARGURA_TELA // 2, c.ALTURA_TELA - 100))  # Ajustar a posição do botão
+    # Checando se o botão de iniciar foi clicado
+    screen.blit(iniciar_image, iniciar_rect)
+    if iniciar_rect.collidepoint(pg.mouse.get_pos()) and pg.mouse.get_pressed()[0]:
+        return True  # Fechar a tela de informações e voltar para o jogo
+
+    return False  # Caso contrário, continua mostrando a tela de informações
+
 
 def show_help_screen():
     # Tela de ajuda (fundo)
@@ -233,7 +263,7 @@ def show_help_screen():
     restart_image = pg.image.load('assets/images/buttons/restart.png').convert_alpha()
     fast_forward_image = pg.image.load('assets/images/buttons/fast_forward.png').convert_alpha()
     pause_image = pg.image.load('assets/images/buttons/pause_button.png').convert_alpha()
-
+    
 
     # Exibir as imagens dos botões e seus textos explicativos
     y_offset = 150  # Posição inicial do eixo Y para os botões e textos
@@ -307,7 +337,10 @@ run = True
 intro_display_time = 3000  # Tempo para exibir a tela de introdução (em milissegundos)
 intro_start_time = pg.time.get_ticks()  # Marca o tempo que a tela de introdução começou a ser exibida
 in_help_screen = False  # Variável para controlar se estamos na tela de ajuda
-in_informar = False
+in_informar1 = False
+in_informar2 = False
+in_informar3 = False
+in_informar4 = False
 
 while run:
 
@@ -354,33 +387,53 @@ while run:
   #draw level
   world.draw(screen)
 
-  #draw groups
+    #draw groups
   enemy_group.draw(screen)
   enemy_group_2.draw(screen)
   for turret in turret_group:
     turret.draw(screen)
-
   display_data()
-
+  
   if game_over == False:
     
     
     
     #check if the level has been started or not
     if level_started == False:
-      if(world.level == 1):
-        in_informar = True
-        informar(tiutlo1,conteudo1)
-      if(world.level == 2):
-        informar(tiutlo2,conteudo2)
-      if(world.level == 3):
-        informar(tiutlo3, conteudo3)
-      if(world.level == 4):
-        informar(tiutlo4,conteudo4)    
+      
+      if world.level == 1 and in_informar1 == False:
+        if informar2(1):
+            in_informar1 = True
+            world.draw(screen)
+      if world.level == 2 and in_informar2 == False:
+        if informar2(2):
+            in_informar2 = True
+            world.draw(screen)
+      if world.level == 3 and in_informar3 == False:
+        if informar2(3):
+            in_informar3 = True
+            world.draw(screen)
+      if world.level == 4 and in_informar4 == False:
+        if informar2(4):
+            in_informar4 = True
+            world.draw(screen)             
+
+        '''
+        level_started = True      # Se o botão "begin" for clicado
+      elif world.level == 2:
+        level_started = True    
+        if informar(tiutlo2, conteudo2):
+      elif world.level == 3:
+        level_started = True    
+        if informar(tiutlo3, conteudo3):
+      elif world.level == 4:
+        level_started = True    
+        if informar(tiutlo4, conteudo4):
+          '''
       if begin_button.draw(screen):
-        level_started = True
+        level_started = True     
     else:
-      in_informar = False
+      #in_informar = False
       #fast forward option
       world.game_speed = 1
       if fast_forward_button.draw(screen):
@@ -417,6 +470,9 @@ while run:
       world.level += 1
       level_started = False
       last_enemy_spawn = pg.time.get_ticks()
+      if world.health <= 0:
+        game_over = True
+        game_outcome = -1
       #world.reset_level()
       if(world.level == 2):
         turret_group.empty()
