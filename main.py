@@ -38,7 +38,15 @@ map_image = pg.image.load('levels/novosNiveis/level.png').convert_alpha()
 map_image2 = pg.image.load('levels/novosNiveis/level2.png').convert_alpha()
 map_image3 = pg.image.load('levels/novosNiveis/level3.png').convert_alpha()
 
+tiutlo1 = "SISD"
+tiutlo2 = "SIMD"
+tiutlo3 = "MISD"
+tiutlo4 = "MIMD"
 
+conteudo1 = "Imagine um valente arqueiro enfrentando um único monstro. O arqueiro só pode disparar uma flecha por vez e, claro, ele só mira em um monstro. Ele vai executar uma ação de cada vez e enfrentar um inimigo de cada vez."
+conteudo2 = "Agora temos vários arqueiros, mas todos com o mesmo objetivo: atacar monstros. Porém, cada arqueiro escolhe um monstro diferente para enfrentar."
+conteudo3 = "Agora a coisa ficou interessante! Vários arqueiros estão atacando o mesmo monstro, mas com diferentes tipos de ataque. Cada arqueiro tem uma habilidade única: uma flecha de fogo, uma de gelo, outra super rápida, e por aí vai!"
+conteudo4 = "Agora, prepare-se para o caos organizado! Vários arqueiros estão lutando contra vários monstros, e cada arqueiro está usando um tipo de ataque diferente. Não há mais uma ação única – cada arqueiro pode fazer algo diferente, e os monstros são diversos!"
 
 #turret spritesheets_
 turret_spritesheets = []
@@ -69,6 +77,7 @@ coin_image = pg.image.load("assets/images/gui/coin.png").convert_alpha()
 logo_image = pg.image.load("assets/images/gui/logo.png").convert_alpha()
 ajuda_image = pg.image.load('assets/images/buttons/ajuda.png').convert_alpha()
 back_image = pg.image.load('assets/images/buttons/back.png').convert_alpha()
+intro_image = pg.image.load('assets/images/intro.jpeg').convert_alpha()
 
 
 #load sounds
@@ -177,7 +186,30 @@ pause_button = Button(c.LARGURA_TELA + 30, 350, pause_image, False)  # Botão de
 ajuda_button = Button(c.LARGURA_TELA + 30, 400, ajuda_image, False)  # Botão de Ajuda
 back_button = Button(c.LARGURA_TELA + 30, 450, back_image, False)
 
+def informar(titulo, conteudo):
+    # Tela de ajuda (fundo)
+    glass_surface = pg.Surface((c.LARGURA_TELA, c.ALTURA_TELA))  # Superfície para o efeito
+    glass_surface.set_alpha(150)  # Definindo a opacidade (0 a 255, onde 255 é totalmente opaco)
+    glass_surface.fill((169, 169, 169))  # Cor cinza (RGB: 169, 169, 169)
 
+    screen.blit(glass_surface, (0, 0))  # Colocando a superfície na tela
+    
+    # Texto explicativo sobre os botões
+    draw_text(titulo, large_font, "white", c.LARGURA_TELA // 2 - 50, 50)  # Título da tela
+    
+    # Limite para o texto (sem ultrapassar a largura da tela considerando o painel lateral)
+    texto_largura_maxima = c.LARGURA_TELA - 180  # Ajustando para 180px de margem à esquerda para o texto
+
+    y_offset = 150
+    draw_text_limited(conteudo, text_font, "black", 150, y_offset, texto_largura_maxima)
+
+    #screen.blit(restart_image, (20, y_offset))
+    #draw_text_limited("Clique no botão 'Restart' para reiniciar o nível.", text_font, "white", 150, y_offset, texto_largura_maxima)
+
+    # Adicionar o botão de voltar
+    if back_button.draw(screen):  # Esse botão retorna ao jogo
+        return True  # Indica que deve voltar ao jogo
+    return False  # Permanece na tela de ajuda
 
 def show_help_screen():
     # Tela de ajuda (fundo)
@@ -201,6 +233,7 @@ def show_help_screen():
     restart_image = pg.image.load('assets/images/buttons/restart.png').convert_alpha()
     fast_forward_image = pg.image.load('assets/images/buttons/fast_forward.png').convert_alpha()
     pause_image = pg.image.load('assets/images/buttons/pause_button.png').convert_alpha()
+
 
     # Exibir as imagens dos botões e seus textos explicativos
     y_offset = 150  # Posição inicial do eixo Y para os botões e textos
@@ -271,12 +304,23 @@ sidebar_background = pg.image.load('assets/images/gui/Moldura_Menu.png').convert
 
 #game loop
 run = True
+intro_display_time = 3000  # Tempo para exibir a tela de introdução (em milissegundos)
+intro_start_time = pg.time.get_ticks()  # Marca o tempo que a tela de introdução começou a ser exibida
 in_help_screen = False  # Variável para controlar se estamos na tela de ajuda
+in_informar = False
 
 while run:
 
   clock.tick(c.FPS)
-
+  #########################
+  # Tela de Introdução
+  #########################
+  if pg.time.get_ticks() - intro_start_time < intro_display_time:
+    # Exibe a tela de introdução
+    screen.blit(intro_image, (0, 0))
+    pg.display.flip()
+    continue  # Pula o resto do loop para não atualizar o jogo ainda
+  
   #########################
   # UPDATING SECTION
   #########################  
@@ -319,11 +363,24 @@ while run:
   display_data()
 
   if game_over == False:
+    
+    
+    
     #check if the level has been started or not
     if level_started == False:
+      if(world.level == 1):
+        in_informar = True
+        informar(tiutlo1,conteudo1)
+      if(world.level == 2):
+        informar(tiutlo2,conteudo2)
+      if(world.level == 3):
+        informar(tiutlo3, conteudo3)
+      if(world.level == 4):
+        informar(tiutlo4,conteudo4)    
       if begin_button.draw(screen):
         level_started = True
     else:
+      in_informar = False
       #fast forward option
       world.game_speed = 1
       if fast_forward_button.draw(screen):
@@ -353,6 +410,7 @@ while run:
             world.spawned_enemies += 1
             last_enemy_spawn = pg.time.get_ticks()
 
+  
     #check if the wave is finished
     if world.check_level_complete() == True:
       world.money += c.RECOMPENSA_NIVEL
@@ -450,7 +508,7 @@ while run:
   if in_help_screen:  # Quando na tela de ajuda
     if show_help_screen():  # Se o jogador clicar no botão de voltar
       in_help_screen = False  # Voltar para o jogo
-
+ 
   # Lógica de mouse e eventos
   for event in pg.event.get():
     if event.type == pg.QUIT:
