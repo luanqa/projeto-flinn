@@ -130,11 +130,11 @@ def display_data():
   #pg.draw.rect(screen, "grey0", (c.LARGURA_TELA, 0, c.PAINEL_LATERAL, 400), 2)
   #screen.blit(logo_image, (c.LARGURA_TELA, 400))
   #display data
-  draw_text("LEVEL: " + str(world.level), text_font, "grey100", c.LARGURA_TELA + 40, 50)
-  screen.blit(heart_image, (c.LARGURA_TELA + 40, 70))
-  draw_text(str(world.health), text_font, "grey100", c.LARGURA_TELA + 70, 75)
-  screen.blit(coin_image, (c.LARGURA_TELA + 240, 70))
-  draw_text(str(world.money), text_font, "grey100", c.LARGURA_TELA + 200, 75)
+  draw_text("LEVEL: " + str(world.level), text_font, "grey100", c.LARGURA_TELA + 110, 50)
+  screen.blit(heart_image, (c.LARGURA_TELA + 110, 70))
+  draw_text("PV:" + str(world.health), text_font, "grey100", c.LARGURA_TELA + 140, 75)
+  screen.blit(coin_image, (c.LARGURA_TELA + 220, 90))
+  draw_text("MOEDAS:" + str(world.money), text_font, "grey100", c.LARGURA_TELA + 90, 95)
   
 
 def create_turret(mouse_pos):
@@ -180,15 +180,15 @@ enemy_group_2 = pg.sprite.Group()
 turret_group = pg.sprite.Group()
 
 #create buttons
-turret_button = Button(c.LARGURA_TELA + 30, 120, buy_turret_image, True)
-cancel_button = Button(c.LARGURA_TELA + 30, 180, cancel_image, True)
-upgrade_button = Button(c.LARGURA_TELA + 30, 230, upgrade_turret_image, True)
-begin_button = Button(c.LARGURA_TELA + 30, 280, begin_image, True) 
-restart_button = Button(c.LARGURA_TELA + 30, 450, restart_image, True)
-fast_forward_button = Button(c.LARGURA_TELA + 30, 300, fast_forward_image, False)
-pause_button = Button(c.LARGURA_TELA + 30, 350, pause_image, False)  # Botão de Pausar
-ajuda_button = Button(c.LARGURA_TELA + 30, 400, ajuda_image, False)  # Botão de Ajuda
-back_button = Button(c.LARGURA_TELA + 30, 450, back_image, False)
+turret_button = Button(c.LARGURA_TELA + 75, 300, buy_turret_image, True)
+cancel_button = Button(c.LARGURA_TELA + 75, 350, cancel_image, True)
+upgrade_button = Button(c.LARGURA_TELA + 75, 400, upgrade_turret_image, True)
+begin_button = Button(c.LARGURA_TELA + 30, 450, begin_image, True) 
+restart_button = Button(c.LARGURA_TELA + 30, 550, restart_image, True)
+fast_forward_button = Button(c.LARGURA_TELA + 30, 450, fast_forward_image, False)
+pause_button = Button(c.LARGURA_TELA + 150, 450, pause_image, False)  # Botão de Pausar
+ajuda_button = Button(c.LARGURA_TELA + 30, 500, ajuda_image, False)  # Botão de Ajuda
+back_button = Button(c.LARGURA_TELA + 150, 500, back_image, False)
 
 def informar(titulo, conteudo):
     # Tela de ajuda (fundo)
@@ -499,8 +499,9 @@ while run:
           #draw buttons
     #button for placing turrets
     #for the "turret button" show cost of turret and draw the button
-    draw_text(str(c.CUSTO), text_font, "grey100", c.LARGURA_TELA + 200, 135)
-    screen.blit(coin_image, (c.LARGURA_TELA + 240, 130))
+    draw_text("CUSTO:" + str(c.CUSTO), text_font, "grey100", c.LARGURA_TELA + 80, 285)
+    screen.blit(coin_image, (c.LARGURA_TELA + 195, 280))
+
     if turret_button.draw(screen):
       placing_turrets = True
     #if placing turrets then show the cancel button as well
