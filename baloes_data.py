@@ -20,38 +20,38 @@ ENEMY_SPAWN_DATA = [
     "medium": 0,
     "strong": 0,
     "elite": 0,
-    "god":4    
+    "god":2    
   },
   {
     #4 varios para varios
-    "weak": 2,
-    "medium": 2,
-    "strong": 2,
-    "elite": 2,
-    "god":2  
+    "weak": 1,
+    "medium": 1,
+    "strong": 1,
+    "elite": 1,
+    "god": 0  
   }
 ]
 
 ENEMY_DATA = {
     "weak": {
-    "health": 10,
+    "health": 5,
     "speed": 1
   },
     "medium": {
     "health": 10,
-    "speed": 2
+    "speed": 1.5
   },
     "strong": {
-    "health": 10,
-    "speed": 3
+    "health": 15,
+    "speed": 2
   },
     "elite": {
-    "health": 10,
-    "speed": 4
+    "health": 20,
+    "speed": 2.5
   },
      "god": {
-    "health": 40,
-    "speed": 2
+    "health": 25,
+    "speed": 2.25
   }
 }
 '''

@@ -15,6 +15,7 @@ clock = pg.time.Clock()
 #create game window
 screen = pg.display.set_mode((c.LARGURA_TELA + c.PAINEL_LATERAL, c.ALTURA_TELA))
 pg.display.set_caption("Tower Defence")
+help_screen_stage = 1
 
 #game variables
 game_over = False
@@ -25,7 +26,6 @@ placing_turrets = False
 selected_turret = None
 game_paused = False  
 pause_button_clicked = False
-
 #load images
 #map
 '''
@@ -64,7 +64,8 @@ enemy_images = {
   "god": pg.image.load('assets/images/enemies/alien5.png').convert_alpha()
 }
 #buttons
-buy_turret_image = pg.image.load('assets/images/buttons/Botao_de_Compra.png').convert_alpha()
+buy_turret_image = pg.image.load('assets/images/buttons/novaCompra.png').convert_alpha()
+nova_compra_image = pg.image.load('assets/images/buttons/novaCompra.png').convert_alpha()
 cancel_image = pg.image.load('assets/images/buttons/cancel.png').convert_alpha()
 upgrade_turret_image = pg.image.load('assets/images/buttons/Botao_Upgrade.png').convert_alpha()
 begin_image = pg.image.load('assets/images/buttons/Botao_fase.png').convert_alpha()
@@ -82,7 +83,6 @@ informacao_tela1 = pg.image.load('assets/images/informacao1.png').convert_alpha(
 informacao_tela2 = pg.image.load('assets/images/informacao2.png').convert_alpha()
 informacao_tela3 = pg.image.load('assets/images/informacao3.png').convert_alpha()
 informacao_tela4 = pg.image.load('assets/images/informacao4.png').convert_alpha()
-
 
 #load sounds
 shot_fx = pg.mixer.Sound('assets/audio/shot.wav')
@@ -180,9 +180,10 @@ enemy_group_2 = pg.sprite.Group()
 turret_group = pg.sprite.Group()
 
 #create buttons
-turret_button = Button(c.LARGURA_TELA + 75, 300, buy_turret_image, True)
-cancel_button = Button(c.LARGURA_TELA + 75, 350, cancel_image, True)
-upgrade_button = Button(c.LARGURA_TELA + 75, 400, upgrade_turret_image, True)
+new_turrer_button = Button(c.LARGURA_TELA + 75, 300, nova_compra_image, True)
+turret_button = Button(c.LARGURA_TELA + 90, 200, buy_turret_image, True)
+cancel_button = Button(c.LARGURA_TELA + 90, 350, cancel_image, True)
+upgrade_button = Button(c.LARGURA_TELA + 90, 400, upgrade_turret_image, True)
 begin_button = Button(c.LARGURA_TELA + 30, 450, begin_image, True) 
 restart_button = Button(c.LARGURA_TELA + 30, 550, restart_image, True)
 fast_forward_button = Button(c.LARGURA_TELA + 30, 450, fast_forward_image, False)
@@ -242,65 +243,106 @@ def informar2(lv):
 
 
 def show_help_screen():
-    # Tela de ajuda (fundo)
-    glass_surface = pg.Surface((c.LARGURA_TELA, c.ALTURA_TELA))  # Superfície para o efeito
-    glass_surface.set_alpha(150)  # Definindo a opacidade (0 a 255, onde 255 é totalmente opaco)
-    glass_surface.fill((169, 169, 169))  # Cor cinza (RGB: 169, 169, 169)
+    global help_screen_stage
 
-    screen.blit(glass_surface, (0, 0))  # Colocando a superfície na tela
-    
-    # Texto explicativo sobre os botões
-    draw_text("AJUDA", large_font, "white", c.LARGURA_TELA // 2 - 50, 50)  # Título da tela
-    
-    # Limite para o texto (sem ultrapassar a largura da tela considerando o painel lateral)
-    texto_largura_maxima = c.LARGURA_TELA - 180  # Ajustando para 180px de margem à esquerda para o texto
+    #print(help_screen_stage)
 
-    # Carregar as imagens dos botões
+    # Criando a superfície de fundo
+    '''
+    glass_surface = pg.Surface((c.LARGURA_TELA, c.ALTURA_TELA))
+    glass_surface.set_alpha(150)
+    glass_surface.fill((169, 169, 169))
+
+    screen.blit(glass_surface, (0, 0))
+
+    # Título da tela
+    draw_text("AJUDA", large_font, "white", c.LARGURA_TELA // 2 - 50, 50)
+
+    # Limite para o texto
+    texto_largura_maxima = c.LARGURA_TELA - 180
+
+    # Carregar imagens dos botões
     buy_turret_image = pg.image.load('assets/images/buttons/Botao_de_Compra.png').convert_alpha()
-    cancel_image = pg.image.load('assets/images/buttons/cancel.png').convert_alpha()
     upgrade_turret_image = pg.image.load('assets/images/buttons/Botao_Upgrade.png').convert_alpha()
     begin_image = pg.image.load('assets/images/buttons/Botao_fase.png').convert_alpha()
-    restart_image = pg.image.load('assets/images/buttons/restart.png').convert_alpha()
     fast_forward_image = pg.image.load('assets/images/buttons/fast_forward.png').convert_alpha()
     pause_image = pg.image.load('assets/images/buttons/pause_button.png').convert_alpha()
     
+    '''
+    pg1_image = pg.image.load('assets/images/page1.png').convert_alpha()
+    pg2_image = pg.image.load('assets/images/page2.png').convert_alpha()
+    pg3_image = pg.image.load('assets/images/page3.png').convert_alpha()
+    pg4_image = pg.image.load('assets/images/page4.png').convert_alpha()
+    # Criando os botões manualmente
+    next_button = pg.Rect(150, 625, pg1_image.get_width(), pg1_image.get_height())
+    next_button_2 = pg.Rect(250, 625, pg2_image.get_width(), pg2_image.get_height())
+    next_button_3 = pg.Rect(350, 625, pg1_image.get_width(), pg1_image.get_height())
+    next_button_4 = pg.Rect(450, 625, pg2_image.get_width(), pg2_image.get_height())
 
-    # Exibir as imagens dos botões e seus textos explicativos
-    y_offset = 150  # Posição inicial do eixo Y para os botões e textos
-    button_spacing = 100  # Espaçamento vertical entre os botões e textos
+    # Capturar eventos de clique
+    for event in pg.event.get():
+        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:  # Botão esquerdo do mouse
+            if next_button.collidepoint(event.pos):
+                help_screen_stage = 1  # Vai para a tela 1
+            elif next_button_2.collidepoint(event.pos):
+                help_screen_stage = 2  # Vai para a tela 2
+            elif next_button_3.collidepoint(event.pos):
+                help_screen_stage = 3  # Vai para a tela 3
+            elif next_button_4.collidepoint(event.pos):
+                help_screen_stage = 4  # Vai para a tela 4
 
-    screen.blit(begin_image, (20, y_offset))
-    draw_text_limited("Clique no botão 'Começar' para iniciar o jogo.", text_font, "white", 150, y_offset, texto_largura_maxima)
+    # Exibir a tela correspondente
+    if help_screen_stage == 1:
+       ajuda_1 = pg.image.load('assets/images/ajuda1.png').convert_alpha()
+       screen.blit(ajuda_1, (0, 0))
+       '''
+        y_offset = 150
+        button_spacing = 100
 
-    y_offset += button_spacing  # Ajusta o próximo Y para a linha seguinte
+        screen.blit(begin_image, (20, y_offset))
+        draw_text_limited("Clique no botão 'Começar' para iniciar o jogo.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
-    screen.blit(fast_forward_image, (20, y_offset))
-    draw_text_limited("Clique no botão 'Acelerar' para aumentar a velocidade.", text_font, "white", 150, y_offset, texto_largura_maxima)
+        y_offset += button_spacing
+        screen.blit(fast_forward_image, (20, y_offset))
+        draw_text_limited("Clique no botão 'Acelerar' para aumentar a velocidade.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
-    y_offset += button_spacing
+        y_offset += button_spacing
+        screen.blit(buy_turret_image, (20, y_offset))
+        draw_text_limited("Clique no botão 'Turret' para colocar torres.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
-    screen.blit(buy_turret_image, (20, y_offset))
-    draw_text_limited("Clique no botão 'Turret' para colocar torres.", text_font, "white", 150, y_offset, texto_largura_maxima)
+        y_offset += button_spacing
+        screen.blit(upgrade_turret_image, (20, y_offset))
+        draw_text_limited("Clique no botão 'Upgrade' para melhorar torres.", text_font, "white", 150, y_offset, texto_largura_maxima)
 
-    y_offset += button_spacing
+        y_offset += button_spacing
+        screen.blit(pause_image, (20, y_offset))
+        draw_text_limited("Clique no botão 'Pausa' para pausar o jogo.", text_font, "white", 150, y_offset, texto_largura_maxima)
+        '''
+    elif help_screen_stage == 2:
+        # Exibir a imagem da segunda tela de ajuda
+        ajuda_2 = pg.image.load('assets/images/ajuda2.png').convert_alpha()
+        screen.blit(ajuda_2, (0, 0))
+    elif help_screen_stage == 3:
+        ajuda_3 = pg.image.load('assets/images/ajuda3.png').convert_alpha()
+        screen.blit(ajuda_3, (0, 0))
+    elif help_screen_stage == 4:     
+        ajuda_4 = pg.image.load('assets/images/ajuda4.png').convert_alpha()
+        screen.blit(ajuda_4, (0, 0))
+    screen.blit(pg1_image, (next_button.x, next_button.y))
+    screen.blit(pg2_image, (next_button_2.x, next_button_2.y))
+    screen.blit(pg3_image, (next_button_3.x, next_button_3.y))
+    screen.blit(pg4_image, (next_button_4.x, next_button_4.y))
+  
 
-    screen.blit(upgrade_turret_image, (20, y_offset))
-    draw_text_limited("Clique no botão 'Upgrade' para melhorar torres.", text_font, "white", 150, y_offset, texto_largura_maxima)
+    # Atualizar a tela
+    
 
-    y_offset += button_spacing
-
-    screen.blit(pause_image, (20, y_offset))
-    draw_text_limited("Clique no botão 'Pausa' para pausar o jogo.", text_font, "white", 150, y_offset, texto_largura_maxima)
-
-    y_offset += button_spacing
-
-    #screen.blit(restart_image, (20, y_offset))
-    #draw_text_limited("Clique no botão 'Restart' para reiniciar o nível.", text_font, "white", 150, y_offset, texto_largura_maxima)
-
-    # Adicionar o botão de voltar
     if back_button.draw(screen):  # Esse botão retorna ao jogo
         return True  # Indica que deve voltar ao jogo
     return False  # Permanece na tela de ajuda
+
+
+
 
 
 def draw_text_limited(text, font, color, x, y, max_width):
@@ -336,7 +378,7 @@ sidebar_background = pg.image.load('assets/images/gui/Moldura_Menu.png').convert
 run = True
 intro_display_time = 3000  # Tempo para exibir a tela de introdução (em milissegundos)
 intro_start_time = pg.time.get_ticks()  # Marca o tempo que a tela de introdução começou a ser exibida
-in_help_screen = False  # Variável para controlar se estamos na tela de ajuda
+in_help_screen = True  # Variável para controlar se estamos na tela de ajuda
 in_informar1 = False
 in_informar2 = False
 in_informar3 = False
@@ -395,9 +437,9 @@ while run:
   display_data()
   
   if game_over == False:
-    
-    
-    
+    if in_help_screen:  # Quando na tela de ajuda
+        if show_help_screen():  # Se o jogador clicar no botão de voltar
+          in_help_screen = False  # Voltar para o jogo     
     #check if the level has been started or not
     if level_started == False:
       
@@ -499,8 +541,8 @@ while run:
           #draw buttons
     #button for placing turrets
     #for the "turret button" show cost of turret and draw the button
-    draw_text("CUSTO:" + str(c.CUSTO), text_font, "grey100", c.LARGURA_TELA + 80, 285)
-    screen.blit(coin_image, (c.LARGURA_TELA + 195, 280))
+    screen.blit(coin_image, (c.LARGURA_TELA + 195, 330))
+    draw_text("CUSTO:" + str(c.CUSTO), text_font, "grey100", c.LARGURA_TELA + 80, 335)
 
     if turret_button.draw(screen):
       placing_turrets = True
