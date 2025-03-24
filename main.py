@@ -52,6 +52,7 @@ enemy_images = {
 }
 
 #carregando imagens
+sidebar_background = pg.image.load('assets/images/gui/Moldura_Menu.png').convert_alpha()
 buy_turret_image = pg.image.load('assets/images/buttons/novaCompra.png').convert_alpha()
 nova_compra_image = pg.image.load('assets/images/buttons/novaCompra.png').convert_alpha()
 cancel_image = pg.image.load('assets/images/buttons/cancel.png').convert_alpha()
@@ -160,7 +161,7 @@ restart_button = Button(c.LARGURA_TELA + 30, 550, restart_image, True)
 fast_forward_button = Button(c.LARGURA_TELA + 30, 450, fast_forward_image, False)
 pause_button = Button(c.LARGURA_TELA + 150, 450, pause_image, False)  # Botão de Pausar
 ajuda_button = Button(c.LARGURA_TELA + 30, 500, ajuda_image, False)  # Botão de Ajuda
-back_button = Button(c.LARGURA_TELA + 150, 500, back_image, False)
+#back_button = Button(c.LARGURA_TELA + 150, 500, back_image, False)
 back_button = Button(550, 625, back_image, False)
 
 def informar2(lv):
@@ -182,6 +183,66 @@ def informar2(lv):
     return False  # Caso contrário, continua mostrando a tela de informações
 
 
+
+
+
+help_images = [
+    pg.image.load('assets/images/ajuda1.png').convert_alpha(),
+    pg.image.load('assets/images/ajuda2.png').convert_alpha(),
+    pg.image.load('assets/images/ajuda3.png').convert_alpha(),
+    pg.image.load('assets/images/ajuda4.png').convert_alpha()
+]
+
+# Carrega as imagens dos botões
+button_images = [
+    pg.image.load('assets/images/page1.png').convert_alpha(),
+    pg.image.load('assets/images/page2.png').convert_alpha(),
+    pg.image.load('assets/images/page3.png').convert_alpha(),
+    pg.image.load('assets/images/page4.png').convert_alpha(),
+    
+]
+
+# Cria os botões de navegação automaticamente
+buttons = [
+    pg.Rect(150 + i * 100, 625, button_images[i].get_width(), button_images[i].get_height())
+    for i in range(4)
+]
+
+def show_help_screen():
+    global help_screen_stage
+
+    # Loop para manter a tela de ajuda ativa
+    showing_help = True
+    while showing_help:
+        #screen.fill((0, 0, 0))  # Limpa a tela
+
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                exit()
+            elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                for i, button in enumerate(buttons):
+                    if button.collidepoint(event.pos):
+                        help_screen_stage = i + 1  # Atualiza para a página correta
+                # Se clicar no botão de voltar, sai da tela de ajuda
+                if back_button.draw(screen):  # Esse botão retorna ao jogo
+                  return True  # Indica que deve voltar ao jogo
+
+        # Exibe a tela de ajuda correspondente
+        screen.blit(help_images[help_screen_stage - 1], (0, 0))
+
+        # Desenha os botões
+        for i, button in enumerate(buttons):
+            screen.blit(button_images[i], (button.x, button.y))
+
+        # Desenha o botão de voltar
+        screen.blit(back_image, (back_button.rect.x, back_button.rect.y))
+
+        pg.display.flip()  # Atualiza a tela
+
+    return False  # Retorna para indicar que saiu da tela de ajuda
+
+'''
 def show_help_screen():
     global help_screen_stage
     pg1_image = pg.image.load('assets/images/page1.png').convert_alpha()
@@ -230,8 +291,7 @@ def show_help_screen():
     if back_button.draw(screen):  # Esse botão retorna ao jogo
         return True  # Indica que deve voltar ao jogo
     return False  # Permanece na tela de ajuda
-
-sidebar_background = pg.image.load('assets/images/gui/Moldura_Menu.png').convert_alpha()
+'''
 
 
 run = True
@@ -254,7 +314,7 @@ while run:
     screen.blit(intro_image, (0, 0))
     pg.display.flip()
     continue  # Pula o resto do loop para não atualizar o jogo ainda
-  
+  display_data()
   #########################
   #     ATUALIZAÇAO       #
   #########################  
@@ -293,7 +353,7 @@ while run:
   enemy_group_2.draw(screen)
   for turret in turret_group:
     turret.draw(screen)
-  display_data()
+  
   
   if game_over == False:
     if in_help_screen:  # Quando na tela de ajuda
