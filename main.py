@@ -66,10 +66,10 @@ logo_image = pg.image.load("assets/images/gui/logo.png").convert_alpha()
 ajuda_image = pg.image.load('assets/images/buttons/ajuda.png').convert_alpha()
 back_image = pg.image.load('assets/images/buttons/back.png').convert_alpha()
 intro_image = pg.image.load('assets/images/intro.jpeg').convert_alpha()
-informacao_tela1 = pg.image.load('assets/images/informacao1.png').convert_alpha()
-informacao_tela2 = pg.image.load('assets/images/informacao2.png').convert_alpha()
-informacao_tela3 = pg.image.load('assets/images/informacao3.png').convert_alpha()
-informacao_tela4 = pg.image.load('assets/images/informacao4.png').convert_alpha()
+informacao_tela1 = pg.image.load('assets/images/intro1.png').convert_alpha()
+informacao_tela2 = pg.image.load('assets/images/intro2.png').convert_alpha()
+informacao_tela3 = pg.image.load('assets/images/intro3.png').convert_alpha()
+informacao_tela4 = pg.image.load('assets/images/intro4.png').convert_alpha()
 
 #sons
 shot_fx = pg.mixer.Sound('assets/audio/shot.wav')
@@ -161,7 +161,7 @@ fast_forward_button = Button(c.LARGURA_TELA + 30, 450, fast_forward_image, False
 pause_button = Button(c.LARGURA_TELA + 150, 450, pause_image, False)  # Botão de Pausar
 ajuda_button = Button(c.LARGURA_TELA + 30, 500, ajuda_image, False)  # Botão de Ajuda
 back_button = Button(c.LARGURA_TELA + 150, 500, back_image, False)
-
+back_button = Button(550, 625, back_image, False)
 
 def informar2(lv):
     if lv == 1:
@@ -416,6 +416,10 @@ while run:
       level_started = False
       placing_turrets = False
       selected_turret = None
+      in_informar1 = False
+      in_informar2 = False
+      in_informar3 = False
+      in_informar4 = False
       last_enemy_spawn = pg.time.get_ticks()
       world = World(world_data, map_image)
       world.process_data()

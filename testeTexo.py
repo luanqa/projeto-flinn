@@ -1,31 +1,35 @@
-import pygame as pg
+import os
+import subprocess
 
-pg.init()
-screen = pg.display.set_mode((500, 400))
-pg.display.set_caption("Visualização de Fontes")
+# Caminho completo do pyinstaller
+pyinstaller_path = r"C:\Users\lnsan\AppData\Local\Programs\Python\Python311\Scripts\pyinstaller.exe"
 
-# Lista de fontes para testar
-font_names = ["Arial", "Courier", "Comic Sans MS", "Consolas", "Georgia",
-              "Impact", "Tahoma", "Times New Roman", "Verdana"]
+# Direção do seu projeto
+diretorio_projeto = "C:/Users/lnsan/projeto-flinn"
 
-screen.fill((30, 30, 30))
-y = 10  # Posição inicial
+# Função para gerar todos os caminhos de arquivos, excluindo pastas "venv"
+def incluir_arquivos(diretorio):
+    arquivos = []
+    for root, dirs, files in os.walk(diretorio):
+        # Ignorar diretórios 'venv'
+        dirs[:] = [d for d in dirs if d != 'venv']
+        
+        for file in files:
+            caminho_arquivo = os.path.join(root, file)
+            destino = os.path.relpath(caminho_arquivo, diretorio)
+            arquivos.append(f"{caminho_arquivo};{destino}")
+    
+    return arquivos
 
-for font_name in font_names:
-    try:
-        font = pg.font.SysFont(font_name, 30)
-        text_surface = font.render(font_name, True, (255, 255, 255))
-        screen.blit(text_surface, (10, y))
-        y += 40  # Espaçamento entre as fontes
-    except:
-        print(f"Fonte {font_name} não disponível.")
+# Obtendo todos os arquivos e caminhos relativos
+arquivos_incluidos = incluir_arquivos(diretorio_projeto)
 
-pg.display.flip()
+# Montando o comando PyInstaller com todos os arquivos
+comando = [pyinstaller_path, "--onefile", "--windowed"]
+for arquivo in arquivos_incluidos:
+    comando.append(f"--add-data {arquivo}")
 
-running = True
-while running:
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            running = False
+comando.append("main.py")
 
-pg.quit()
+# Executando o comando no terminal
+print(comando)
