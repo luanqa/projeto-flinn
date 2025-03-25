@@ -8,7 +8,7 @@ import config as c
 
 
 pg.init()
-
+pg.mixer.init()
 
 clock = pg.time.Clock()
 
